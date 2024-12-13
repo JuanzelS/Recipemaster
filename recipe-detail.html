@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecipeMaster - Recipe Detail</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        // JavaScript to dynamically load recipe details based on URL parameter
+        document.addEventListener("DOMContentLoaded", function() {
+            const params = new URLSearchParams(window.location.search);
+            const recipeId = params.get('id');
+            const recipes = {
+                "carbonara": {
+                    title: "Spaghetti Carbonara",
+                    img: "https://images.unsplash.com/photo-1633337474564-1d9478ca4e2e?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8U3BhZ2hldHRpJTIwQ2FyYm9uYXJhfGVufDB8fDB8fHww",
+                    ingredients: [
+                        "200g spaghetti",
+                        "100g pancetta",
+                        "2 large eggs",
+                        "50g pecorino cheese (grated)",
+                        "50g parmesan cheese (grated)",
+                        "Salt and freshly ground black pepper",
+                        "1 garlic clove (optional)",
+                        "Olive oil"
+                    ],
+                    instructions: [
+                        "Cook spaghetti in salted water until al dente.",
+                        "Sauté pancetta in olive oil until crispy. Add garlic for extra flavor (optional).",
+                        "Whisk eggs with cheese, salt, and pepper.",
+                        "Drain spaghetti, reserving some pasta water.",
+                        "Mix spaghetti with pancetta, then quickly stir in egg mixture off the heat, using reserved water to adjust consistency."
+                    ]
+                },
+                "buddha-bowl": {
+                    title: "Vegetarian Buddha Bowl",
+                    img: "https://plus.unsplash.com/premium_photo-1664648005761-71dc9e27e729?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fFZlZ2V0YXJpYW4lMjBCdWRkaGElMjBib3dsfGVufDB8fDB8fHww",
+                    ingredients: [
+                        "1 cup cooked quinoa",
+                        "1 cup roasted sweet potatoes",
+                        "1 cup steamed broccoli",
+                        "½ cup chickpeas (cooked or canned)",
+                        "¼ avocado, sliced",
+                        "Tahini dressing"
+                    ],
+                    instructions: [
+                        "Arrange quinoa, sweet potatoes, broccoli, chickpeas, and avocado in a bowl.",
+                        "Drizzle with tahini dressing before serving."
+                    ]
+                },
+                "chicken-tikka-masala": {
+                    title: "Chicken Tikka Masala",
+                    img: "https://plus.unsplash.com/premium_photo-1664391929657-f901ee7f1414?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Q2hpY2tlbiUyMFRpa2thJTIwTWFzYWxhfGVufDB8fDB8fHww",
+                    ingredients: [
+                        "500g chicken thighs (cubed)",
+                        "1 cup plain yogurt",
+                        "1 tbsp ginger-garlic paste",
+                        "1 tsp turmeric, cumin, and paprika",
+                        "1 can tomato puree",
+                        "½ cup heavy cream",
+                        "1 onion (diced)",
+                        "Fresh cilantro"
+                    ],
+                    instructions: [
+                        "Marinate chicken with yogurt and spices for 2 hours.",
+                        "Sauté onion until golden, add chicken, and cook until browned.",
+                        "Stir in tomato puree, simmer for 15 minutes, and add cream.",
+                        "Garnish with cilantro before serving."
+                    ]
+                },
+                "avocado-toast": {
+                    title: "Avocado Toast with Poached Egg",
+                    img: "https://media.istockphoto.com/id/1447483076/photo/poached-eggs-on-toast-with-avocado-asparagus-tomatoes-and-sprout-for-healthy-breakfast.webp?a=1&b=1&s=612x612&w=0&k=20&c=gwAQ7sSQPuFRyDvuUiEOKHozGFaj3FRanBM6u7vvP2I=",
+                    ingredients: [
+                        "2 slices of sourdough bread",
+                        "1 avocado",
+                        "2 eggs",
+                        "Salt, pepper, and chili flakes"
+                    ],
+                    instructions: [
+                        "Toast bread slices.",
+                        "Mash avocado with salt and spread on toast.",
+                        "Poach eggs and place them on top of the avocado.",
+                        "Sprinkle with pepper and chili flakes."
+                    ]
+                },
+                "beef-stir-fry": {
+                    title: "Beef Stir-Fry",
+                    img: "https://media.istockphoto.com/id/642065070/photo/beef-and-broccoli-stir-fry.webp?a=1&b=1&s=612x612&w=0&k=20&c=hzLrTIv4z2VM2sWcBMhDDyFtlt67uFI2SshOE9-GuR8=",
+                    ingredients: [
+                        "300g beef strips",
+                        "1 red bell pepper (sliced)",
+                        "1 cup broccoli florets",
+                        "2 tbsp soy sauce",
+                        "1 tbsp oyster sauce",
+                        "1 tsp sesame oil",
+                        "Garlic and ginger (minced)"
+                    ],
+                    instructions: [
+                        "Stir-fry garlic and ginger in sesame oil.",
+                        "Add beef and cook until browned.",
+                        "Toss in vegetables and sauces, stir-fry for 5 minutes."
+                    ]
+                },
+                "chocolate-mug-cake": {
+                    title: "Chocolate Mug Cake",
+                    img: "https://media.istockphoto.com/id/1456207815/photo/hot-chocolate-chocolate-mousse-dessert-chocolate-pudding-chocolate-mousse.webp?a=1&b=1&s=612x612&w=0&k=20&c=1CcGxqhyX99QUXSsI_nxvKVghSPxykJAArK5UdhC4aA=",
+                    ingredients: [
+                        "4 tbsp all-purpose flour",
+                        "4 tbsp sugar",
+                        "2 tbsp cocoa powder",
+                        "3 tbsp milk",
+                        "2 tbsp vegetable oil",
+                        "¼ tsp vanilla extract"
+                    ],
+                    instructions: [
+                        "Mix dry ingredients in a mug.",
+                        "Add wet ingredients and mix well.",
+                        "Microwave for 90 seconds."
+                    ]
+                }
+            };
+
+            const recipe = recipes[recipeId];
+            if (recipe) {
+                document.getElementById('recipe-title').textContent = recipe.title;
+                document.getElementById('recipe-img').src = recipe.img;
+                document.getElementById('recipe-ingredients').innerHTML = recipe.ingredients.map(ingredient => `<li>${ingredient}</li>`).join('');
+                document.getElementById('recipe-instructions').innerHTML = recipe.instructions.map(instruction => `<li>${instruction}</li>`).join('');
+            }
+        });
+    </script>
+</head>
+<body>
+    <header class="bg-primary text-white text-center py-4">
+        <h1>RecipeMaster</h1>
+        <nav>
+            <a href="index.html" class="text-white mr-3">Home</a>
+            <a href="recipes.html" class="text-white mr-3">Recipes</a>
+            <a href="about.html" class="text-white mr-3">About Us</a>
+            <a href="favorites.html" class="text-white mr-3">My Favorites</a>
+            <a href="contact.html" class="text-white">Contact Us</a>
+        </nav>
+    </header>
+    <main class="container mt-5">
+        <h2 id="recipe-title">Recipe Detail</h2>
+        <div class="card">
+            <img id="recipe-img" src="" class="card-img-top" alt="Recipe Image">
+            <div class="card-body">
+                <h5 class="card-title" id="recipe-title">Recipe Title</h5>
+                <p class="card-text">This is a detailed description of the recipe. It includes ingredients, instructions, and tips.</p>
+                <h6>Ingredients:</h6>
+                <ul id="recipe-ingredients"></ul>
+                <h6>Instructions:</h6>
+                <ol id="recipe-instructions"></ol>
+            </div>
+        </div>
+    </main>
+    <footer class="bg-primary text-white text-center py-3 mt-5">
+        <p>&copy; 2024 RecipeMaster. All rights reserved.</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery
